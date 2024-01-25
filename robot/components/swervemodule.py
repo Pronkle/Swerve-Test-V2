@@ -28,11 +28,10 @@ class SwerveModule:
 
         self.encoder = self.cfg["encoder"]
 
-        print(self.cfg)
-        self.encoder_zero = self.encoder.getSelectedSensorPosition()
+        self.encoder_zero = self.cfg["zero"]
 
-        self.inverted = self.cfg["inverted"] or False
-        self.allow_reverse = self.cfg["allow_reverse"] or True
+        self.inverted = self.cfg["inverted"]
+        self.allow_reverse = self.cfg["allow_reverse"]
 
         self.driveMotor.setInverted(self.inverted)
 
@@ -40,9 +39,9 @@ class SwerveModule:
         # self.requested_ticks = 0
         self.requested_speed = 0
 
-        self.pid_controller = PIDController(0.0001, 0.0, 0.0)
+        self.pid_controller = PIDController(0.0005, 0.0, 0.0)
         self.pid_controller.enableContinuousInput(0.0, 4096.0)
-        self.pid_controller.setTolerance(100, 100)
+        self.pid_controller.setTolerance(20, 20)
 
     # def setup(self):
         # self.encoder_zero = self.cfg.zero or 0
@@ -103,20 +102,14 @@ class SwerveModule:
         self.set_deg(deg)
         
     def execute(self):
-        error = self.pid_controller.calculate(self.encoder.getSelectedSensorPosition(), self.pid_controller.getSetpoint())
-
+        error = self.pid_controller.calculate(self.encoder.getSelectedSensorPosition())
         output = 0
 
-        if self.pid_controller.atSetpoint():
-            output = 0
-        elif self.pid_controller.atSetpoint():
+        if not self.pid_controller.atSetpoint():
             output = max(min(error, 1), -1)
 
         self.rotateMotor.set(output)
         self.driveMotor.set(max(min(self.requested_speed, 0.5), -0.5)) 
-        print(f"{self.pid_controller.getSetpoint()}")
-        print(self.rotateMotor.getMotorOutputVoltage())
-        print("_________________________________")
             
 
         

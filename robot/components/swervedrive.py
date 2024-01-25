@@ -133,7 +133,7 @@ class SwerveDrive:
         self.requested_angles['rear_left'] = rearLeft_angle
         self.requested_angles['rear_right'] = rearRight_angle
 
-        print(f"{frontLeft_angle=} {frontRight_angle=} {rearLeft_angle=} {rearRight_angle=}")
+        # print(f"{frontLeft_angle=} {frontRight_angle=} {rearLeft_angle=} {rearRight_angle=}")
         
     def execute(self):
         self.calculate_vectors()

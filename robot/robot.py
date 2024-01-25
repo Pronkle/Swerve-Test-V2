@@ -63,10 +63,10 @@ class MyRobot(MagicRobot):
         self.rearLeftModule_encoder = self.rearLeftModule_rotateMotor
         self.rearRightModule_encoder = self.rearRightModule_rotateMotor
 
-        self.frontLeftModule_cfg = {"sd_prefix":'frontLeft_Module', "inverted":True, "allow_reverse":True, "encoder":self.frontLeftModule_encoder}
-        self.frontRightModule_cfg = {"sd_prefix":'frontRight_Module', "inverted":False, "allow_reverse":True, "encoder":self.frontRightModule_encoder}
-        self.rearLeftModule_cfg = {"sd_prefix":'rearLeft_Module', "inverted":True, "allow_reverse":True, "encoder":self.rearLeftModule_encoder}
-        self.rearRightModule_cfg = {"sd_prefix":'rearRight_Module', "inverted":False, "allow_reverse":True, "encoder":self.rearRightModule_encoder}
+        self.frontLeftModule_cfg = {"sd_prefix":'frontLeft_Module', "zero": -101.0, "inverted":True, "allow_reverse":True, "encoder":self.frontLeftModule_encoder}
+        self.frontRightModule_cfg = {"sd_prefix":'frontRight_Module', "zero": 0, "inverted":False, "allow_reverse":True, "encoder":self.frontRightModule_encoder}
+        self.rearLeftModule_cfg = {"sd_prefix":'rearLeft_Module', "zero": 0, "inverted":True, "allow_reverse":True, "encoder":self.rearLeftModule_encoder}
+        self.rearRightModule_cfg = {"sd_prefix":'rearRight_Module', "zero": 0, "inverted":False, "allow_reverse":True, "encoder":self.rearRightModule_encoder}
 
         self.frontLeftModule = swervemodule.SwerveModule(self.frontLeftModule_cfg, self.frontLeftModule_driveMotor, self.frontLeftModule_rotateMotor)
         self.frontRightModule = swervemodule.SwerveModule(self.frontRightModule_cfg, self.frontRightModule_driveMotor, self.frontRightModule_rotateMotor)
@@ -80,8 +80,8 @@ class MyRobot(MagicRobot):
         pass
     
     def teleopInit(self):
-        # self.drive.orient()
-        self.drive.flush()
+        # self.drive.flush()
+        pass
     
     def move(self, y, x, rcw):
         self.drive.move(y, x, rcw)
@@ -94,6 +94,11 @@ class MyRobot(MagicRobot):
         # print(self.frontRightModule_encoder.getSelectedSensorPosition())
         # print(self.rearLeftModule_encoder.getSelectedSensorPosition())
         # print(self.rearRightModule_encoder.getSelectedSensorPosition())
+        print(self.frontLeftModule.pid_controller.getSetpoint())
+        print(self.frontLeftModule.encoder.getSelectedSensorPosition() % 4096)
+        print(self.frontLeftModule.rotateMotor.getMotorOutputVoltage())
+        print("_________________________________")
+
 
 if __name__ == "__main__":
     wpilib.run(MyRobot)
