@@ -3,11 +3,6 @@ from components import swervemodule
 import math
 
 class SwerveDrive:
-    # These modules will be injected from robot.py
-    # frontRightModule: swervemodule.SwerveModule
-    # frontLeftModule: swervemodule.SwerveModule
-    # rearRightModule: swervemodule.SwerveModule
-    # rearLeftModule: swervemodule.SwerveModule
 
     def __init__(self, FR, FL, BR, BL):
         self.frontRightModule = FR
@@ -101,27 +96,18 @@ class SwerveDrive:
         frontLeft_speed = math.hypot(frontX, rightY)
         frontLeft_angle = 0
         frontLeft_angle = math.degrees(math.atan2(frontX, rightY))
-        # if(math.degrees(math.atan2(frontX, rightY))) > 0: frontLeft_angle = 180 - math.degrees(math.atan2(frontX, rightY))
-        # elif(math.degrees(math.atan2(frontX, rightY))) < 0: frontLeft_angle = abs(math.degrees(math.atan2(frontX, rightY))) + 180
-
+        
         frontRight_speed = math.hypot(frontX, leftY)
         frontRight_angle = 0
         frontRight_angle = math.degrees(math.atan2(frontX, leftY))
-        # if(math.degrees(math.atan2(frontX, leftY))) > 0: frontRight_angle = 180 - math.degrees(math.atan2(frontX, leftY))
-        # elif(math.degrees(math.atan2(frontX, leftY))) < 0: frontRight_angle = abs(math.degrees(math.atan2(frontX, leftY))) + 180
-
+      
         rearLeft_speed = math.hypot(rearX, rightY)
         rearLeft_angle = 0
         rearLeft_angle = math.degrees(math.atan2(rearX, rightY))
-        # if(math.degrees(math.atan2(rearX, rightY))) > 0: rearLeft_angle = 180 - math.degrees(math.atan2(rearX, rightY))
-        # elif(math.degrees(math.atan2(rearX, rightY))) < 0: rearLeft_angle = abs(math.degrees(math.atan2(rearX, rightY))) + 180 
-
+        
         rearRight_speed = math.hypot(rearX, leftY)
         rearRight_angle = 0
         rearRight_angle = math.degrees(math.atan2(rearX, leftY)) 
-
-        # if(math.degrees(math.atan2(rearX, leftY))) > 0: rearRight_angle = 180 - math.degrees(math.atan2(rearX, leftY))
-        # elif(math.degrees(math.atan2(rearX, leftY))) < 0: rearRight_angle = abs(math.degrees(math.atan2(rearX, leftY))) + 180  
 
         self.requested_speeds['front_left'] = frontLeft_speed
         self.requested_speeds['front_right'] = frontRight_speed
@@ -133,8 +119,6 @@ class SwerveDrive:
         self.requested_angles['rear_left'] = rearLeft_angle
         self.requested_angles['rear_right'] = rearRight_angle
 
-        # print(f"{frontLeft_angle=} {frontRight_angle=} {rearLeft_angle=} {rearRight_angle=}")
-        
     def execute(self):
         self.calculate_vectors()
         for i in self.modules:

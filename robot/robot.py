@@ -1,15 +1,11 @@
 import wpilib
-
 import ctre
-
 from magicbot import MagicRobot
-
-from networktables import NetworkTables
+from collections import namedtuple
+from networktables import NetworkTables, NetworkTable
 from networktables.util import ntproperty
 
 from components import swervedrive, swervemodule
-
-from collections import namedtuple
 
 ModuleConfig = swervemodule.ModuleConfig
 
@@ -41,11 +37,8 @@ class MyRobot(MagicRobot):
 
     def createObjects(self):
 
-        
-        # self.frontLeftModule = swervemodule.SwerveModule()
-        # self.frontRightModule = swervemodule.SwerveModule()
-        # self.rearLeftModule = swervemodule.SwerveModule()
-        # self.rearRightModule = swervemodule.SwerveModule()
+        NetworkTables.initialize(server='roborio-5045-frc.local')
+        self.sd: NetworkTable = NetworkTables.getTable('SmartDashboard')
         self.controller = wpilib.XboxController(0)
 
         self.frontLeftModule_driveMotor = ctre.WPI_TalonSRX(5) # 1, 2 og
@@ -92,12 +85,18 @@ class MyRobot(MagicRobot):
         print(" ")
         self.move(self.controller.getLeftY(), self.controller.getLeftX(), self.controller.getRightX())
         self.drive.execute()
-        # print(self.frontLeftModule_encoder.getSelectedSensorPosition())
-        # print(self.frontRightModule_encoder.getSelectedSensorPosition())
-        # print(self.rearLeftModule_encoder.getSelectedSensorPosition())
-        # print(self.rearRightModule_encoder.getSelectedSensorPosition())
-        
 
+        # Encoder Positions % 4096
+        self.sd.putValue("FL_encoder_pos", self.frontLeftModule_encoder.getSelectedSensorPosition() % 4096)
+        self.sd.putValue("FR_encoder_pos", self.frontRightModule_encoder.getSelectedSensorPosition() % 4096)
+        self.sd.putValue("RL_encoder_pos", self.rearLeftModule_encoder.getSelectedSensorPosition() % 4096)
+        self.sd.putValue("RR_encoder_pos", self.rearRightModule_encoder.getSelectedSensorPosition() % 4096)
+        # Module setpoints
+        self.sd.putValue("FL_setpoint", self.frontLeftModule.pid_controller.getSetpoint())
+        self.sd.putValue("FR_setpoint", self.frontRightModule.pid_controller.getSetpoint())
+        self.sd.putValue("RL_setpoint", self.rearLeftModule.pid_controller.getSetpoint())
+        self.sd.putValue("RR_setpoint", self.rearRightModule_encoder.pid_controller.getSetpoint())
+        
 
 if __name__ == "__main__":
     wpilib.run(MyRobot)
