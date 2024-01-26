@@ -1,5 +1,7 @@
 # NOTE: This is prototype swerve, certain elements still do not work as intended 
 
+# NOTE: This repo has been moved to the formal team github! No further updates will occur on this repo, but you can use it as a ref.
+
 # Controls Reference
 * Designed to work with an XBOX controller
 
