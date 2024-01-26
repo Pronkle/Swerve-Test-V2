@@ -48,15 +48,17 @@ class MyRobot(MagicRobot):
         # self.rearRightModule = swervemodule.SwerveModule()
         self.controller = wpilib.XboxController(0)
 
-        self.frontLeftModule_driveMotor = ctre.WPI_TalonSRX(1)
-        self.frontRightModule_driveMotor = ctre.WPI_TalonSRX(3)
-        self.rearLeftModule_driveMotor = ctre.WPI_TalonSRX(5)
-        self.rearRightModule_driveMotor = ctre.WPI_TalonSRX(7)
+        self.frontLeftModule_driveMotor = ctre.WPI_TalonSRX(5) # 1, 2 og
+        self.frontLeftModule_rotateMotor = ctre.WPI_TalonSRX(8)
 
-        self.frontLeftModule_rotateMotor = ctre.WPI_TalonSRX(2)
-        self.frontRightModule_rotateMotor = ctre.WPI_TalonSRX(4)
-        self.rearLeftModule_rotateMotor = ctre.WPI_TalonSRX(6)
-        self.rearRightModule_rotateMotor = ctre.WPI_TalonSRX(8)
+        self.frontRightModule_driveMotor = ctre.WPI_TalonSRX(7) # 3, 4 og
+        self.frontRightModule_rotateMotor = ctre.WPI_TalonSRX(6)
+        
+        self.rearRightModule_driveMotor = ctre.WPI_TalonSRX(1) # 5, 6 og
+        self.rearRightModule_rotateMotor = ctre.WPI_TalonSRX(2)
+
+        self.rearLeftModule_driveMotor = ctre.WPI_TalonSRX(3) # 7, 8 og
+        self.rearLeftModule_rotateMotor = ctre.WPI_TalonSRX(4)
 
         self.frontLeftModule_encoder = self.frontLeftModule_rotateMotor
         self.frontRightModule_encoder = self.frontRightModule_rotateMotor
@@ -94,10 +96,7 @@ class MyRobot(MagicRobot):
         # print(self.frontRightModule_encoder.getSelectedSensorPosition())
         # print(self.rearLeftModule_encoder.getSelectedSensorPosition())
         # print(self.rearRightModule_encoder.getSelectedSensorPosition())
-        print(self.frontLeftModule.pid_controller.getSetpoint())
-        print(self.frontLeftModule.encoder.getSelectedSensorPosition() % 4096)
-        print(self.frontLeftModule.rotateMotor.getMotorOutputVoltage())
-        print("_________________________________")
+        
 
 
 if __name__ == "__main__":

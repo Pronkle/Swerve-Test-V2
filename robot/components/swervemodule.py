@@ -41,7 +41,7 @@ class SwerveModule:
 
         self.pid_controller = PIDController(0.0005, 0.0, 0.0)
         self.pid_controller.enableContinuousInput(0.0, 4096.0)
-        self.pid_controller.setTolerance(20, 20)
+        self.pid_controller.setTolerance(5, 5)
 
     # def setup(self):
         # self.encoder_zero = self.cfg.zero or 0
